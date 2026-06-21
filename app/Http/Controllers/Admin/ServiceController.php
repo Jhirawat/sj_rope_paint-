@@ -1,0 +1,12 @@
+<?php
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller; use Illuminate\Http\Request; use Illuminate\Support\Str; use App\Models\Service;
+class ServiceController extends Controller {
+ public function index(){return view('admin.services.index',['services'=>Service::orderBy('sort_order')->paginate(20)]);} public function create(){return view('admin.services.form',['service'=>new Service]);}
+ public function store(Request $request){$data=$this->data($request); Service::create($data); return redirect()->route('admin.services.index')->with('success','เพิ่มบริการแล้ว');}
+ public function edit(Service $service){return view('admin.services.form',compact('service'));} public function update(Request $request, Service $service){$service->update($this->data($request,$service->id)); return back()->with('success','บันทึกบริการแล้ว');}
+ public function destroy(Service $service){ if($service->projects()->exists()) return back()->withErrors('ลบบริการไม่ได้ เพราะมีผลงานอ้างอิงอยู่'); $service->delete(); return back()->with('success','ลบบริการแล้ว');}
+ public function moveUp(Service $service){$prev=Service::where('sort_order','<',$service->sort_order)->orderByDesc('sort_order')->first(); if($prev){[$service->sort_order,$prev->sort_order]=[$prev->sort_order,$service->sort_order]; $service->save(); $prev->save();} return back()->with('success','เลื่อนบริการขึ้นแล้ว');}
+ public function moveDown(Service $service){$next=Service::where('sort_order','>',$service->sort_order)->orderBy('sort_order')->first(); if($next){[$service->sort_order,$next->sort_order]=[$next->sort_order,$service->sort_order]; $service->save(); $next->save();} return back()->with('success','เลื่อนบริการลงแล้ว');}
+ private function data(Request $r,$id=null){$d=$r->validate(['title_th'=>'required|max:255','title_en'=>'nullable|max:255','slug'=>'nullable|max:255|unique:services,slug,'.($id?:'NULL').',id','excerpt_th'=>'nullable','excerpt_en'=>'nullable','content_th'=>'nullable','content_en'=>'nullable','icon'=>'nullable|max:100','image'=>'nullable|image|max:4096','sort_order'=>'nullable|integer','is_active'=>'nullable|boolean']); if($r->hasFile('image')){$d['image']=$r->file('image')->store('services','public');} $d['slug']=$d['slug']?:Str::slug($d['title_en']?:$d['title_th']); $d['is_active']=$r->boolean('is_active'); $d['sort_order']=$d['sort_order'] ?? (Service::max('sort_order')+1); return $d;}
+}

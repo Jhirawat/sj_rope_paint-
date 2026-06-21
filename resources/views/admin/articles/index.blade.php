@@ -1,0 +1,2 @@
+@extends('layouts.admin')
+@section('content')<div class="d-flex justify-content-between mb-3"><h1>บทความ</h1><a class="btn btn-sj" href="{{ route('admin.articles.create') }}">เพิ่มบทความ</a></div><div class="card p-3"><table class="table">@foreach($articles as $a)<tr><td>{{ $a->title_th }}</td><td>{{ $a->status }}</td><td><a href="{{ route('admin.articles.edit',$a) }}">แก้ไข</a></td></tr>@endforeach</table>{{ $articles->links() }}</div>@endsection

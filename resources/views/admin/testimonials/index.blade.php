@@ -1,0 +1,2 @@
+@extends('layouts.admin')
+@section('content')<div class="d-flex justify-content-between mb-3"><h1>รีวิว</h1><a class="btn btn-sj" href="{{ route('admin.testimonials.create') }}">เพิ่มรีวิว</a></div><div class="card p-3"><table class="table">@foreach($testimonials as $t)<tr><td>{{ $t->customer_name }}</td><td>{{ $t->rating }} ดาว</td><td><a href="{{ route('admin.testimonials.edit',$t) }}">แก้ไข</a></td></tr>@endforeach</table>{{ $testimonials->links() }}</div>@endsection

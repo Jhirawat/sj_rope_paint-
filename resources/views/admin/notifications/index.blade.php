@@ -1,0 +1,5 @@
+@extends('layouts.admin')
+@section('content')
+<div class="d-flex justify-content-between align-items-center mb-4"><div><h1 class="h3 mb-1">🔔 แจ้งเตือน</h1><div class="text-muted">แจ้งเตือนเงินเบิก เข้างานสาย ขาดงาน และระบบค่าแรง</div></div><form method="post" action="{{ route('admin.notifications.read-all') }}">@csrf<button class="btn btn-outline-secondary">อ่านทั้งหมด</button></form></div>
+<div class="card p-3"><div class="list-group list-group-flush">@forelse($notifications as $n)<div class="list-group-item d-flex justify-content-between align-items-start {{ $n->read_at?'':'bg-warning-subtle' }}"><div><div class="fw-bold">{{ $n->title }}</div><div>{{ $n->message }}</div><div class="small text-muted">{{ $n->created_at->format('d/m/Y H:i') }} · {{ $n->type }}</div></div><form method="post" action="{{ route('admin.notifications.read',$n) }}">@csrf<button class="btn btn-sm btn-outline-primary">เปิดดู</button></form></div>@empty<div class="text-muted p-3">ยังไม่มีแจ้งเตือน</div>@endforelse</div>{{ $notifications->links() }}</div>
+@endsection

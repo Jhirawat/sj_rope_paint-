@@ -1,0 +1,22 @@
+{
+  "services": "บริการ",
+  "projects": "ผลงาน",
+  "articles": "บทความ",
+  "contact": "ติดต่อเรา",
+  "request_quote": "ขอใบเสนอราคา",
+  "work_orders": "ใบงาน",
+  "view_details": "ดูรายละเอียด",
+  "latest_projects": "ผลงานล่าสุด",
+  "our_services": "บริการของเรา",
+  "submit": "ส่งข้อมูล",
+  "track": "ติดตามงาน",
+  "before": "ก่อนทำ",
+  "progress": "ระหว่างทำ",
+  "after": "หลังทำ",
+  "call": "โทร",
+  "quote": "ขอราคา",
+  "footer_quick_links": "เมนูลัด",
+  "contact_information": "ข้อมูลติดต่อ",
+  "project_photo": "รูปผลงาน",
+  "home": "หน้าแรก"
+}

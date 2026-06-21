@@ -1,0 +1,2 @@
+@extends('layouts.app')
+@section('content')<section class="section"><div class="container"><h1 class="fw-bold mb-4">บทความ</h1><div class="row g-4">@foreach($articles as $article)<div class="col-md-4"><div class="card card-sj p-4 h-100"><h5>{{ $article->title() }}</h5><p class="text-muted">{{ $article->excerpt() }}</p><a href="{{ route('articles.show',$article) }}">อ่านต่อ</a></div></div>@endforeach</div><div class="mt-4">{{ $articles->links() }}</div></div></section>@endsection

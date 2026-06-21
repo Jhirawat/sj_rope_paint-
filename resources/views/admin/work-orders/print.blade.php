@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="{{ app()->getLocale() }}">
+<head>
+<meta charset="utf-8"><title>{{ app()->getLocale()==='en'?'Work Order':'ใบงาน' }} {{ $workOrder->work_order_no }}</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>@page{size:A4;margin:10mm}body{font-family:Tahoma,Arial,sans-serif;font-size:13px;color:#10213a}.brand{color:#0b3c74}.box{border:1.3px solid #0b3c74;border-radius:12px;padding:14px;margin-bottom:12px}.muted{color:#667085}.title{font-size:24px;font-weight:800}.qr{width:98px;height:98px}.sigbox{height:140px}.signline{border-top:1px solid #999;margin-top:70px;padding-top:8px}.photo{height:100px;object-fit:cover}.logo{max-height:64px}.headbar{border-bottom:4px solid #ffb703;padding-bottom:10px;margin-bottom:14px}.badge-sj{background:#fff4cf;color:#8a5100;border-radius:999px;padding:5px 10px}.watermark{position:fixed;right:10mm;bottom:8mm;color:#d0d7e2;font-size:11px}</style>
+</head>
+<body onload="window.print()">
+@php $en=app()->getLocale()==='en'; $map=$workOrder->mapUrl(); @endphp
+<div class="headbar d-flex justify-content-between align-items-start">
+ <div class="d-flex align-items-center gap-3"><img class="logo" src="{{ asset('images/sj-v9/sj-logo-main.png') }}"><div><div class="title brand">{{ $en?'SJ Rope Access Painting Co., Ltd.':'บริษัท เอสเจ ทาสีโรยตัว จำกัด' }}</div><div class="muted">{{ $en?'Professional Work Order for Field Team':'ใบงานสำหรับทีมช่าง / Work Order' }}</div></div></div>
+ <div class="text-end"><span class="badge-sj">{{ $workOrder->work_order_no }}</span><br><b>{{ now()->format('d/m/Y H:i') }}</b></div>
+</div>
+<div class="row g-3">
+ <div class="col-6"><div class="box h-100"><h6 class="fw-bold brand">{{ $en?'Customer Information':'ข้อมูลลูกค้า' }}</h6>{{ $en?'Name':'ชื่อ' }}: {{ $workOrder->customer_name }}<br>{{ $en?'Phone':'โทร' }}: {{ $workOrder->phone }}<br>LINE: {{ $workOrder->line_id ?: '-' }}<br>Email: {{ $workOrder->email ?: '-' }}</div></div>
+ <div class="col-6"><div class="box h-100"><h6 class="fw-bold brand">{{ $en?'Worksite Location':'สถานที่หน้างาน' }}</h6>{{ $workOrder->address ?: '-' }}<br>{{ $en?'Coordinates':'พิกัด' }}: {{ $workOrder->latitude ?: '-' }}, {{ $workOrder->longitude ?: '-' }}<br>@if($map!=='#')<div class="d-flex align-items-center gap-3 mt-2"><img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data={{ urlencode($map) }}"><div class="fw-bold">{{ $en?'Scan to open map':'สแกนเปิดแผนที่' }}</div></div>@endif</div></div>
+</div>
+<div class="box"><h6 class="fw-bold brand">{{ $en?'Job Details':'รายละเอียดงาน' }}</h6><div class="row"><div class="col-4">{{ $en?'Service':'บริการ' }}: {{ optional($workOrder->service)->title() ?: '-' }}</div><div class="col-4">{{ $en?'Building Type':'ประเภท' }}: {{ $workOrder->job_type ?: '-' }}</div><div class="col-4">{{ $en?'Floors':'จำนวนชั้น' }}: {{ $workOrder->floors ?: '-' }}</div></div><div class="row mt-2"><div class="col-6">{{ $en?'Status':'สถานะ' }}: {{ $workOrder->statusText() }}</div><div class="col-6">{{ $en?'Team Leader':'หัวหน้าช่าง' }}: {{ $workOrder->team_leader ?: '-' }}</div></div><hr>{!! nl2br(e($workOrder->details)) !!}<br><b>{{ $en?'Note':'หมายเหตุ' }}:</b> {!! nl2br(e($workOrder->admin_note)) !!}</div>
+<div class="box"><h6 class="fw-bold brand">{{ $en?'Worksite Photos':'รูปหน้างาน' }}</h6><div class="row g-2">@forelse($workOrder->images->take(12) as $img)<div class="col-3"><img src="{{ asset('storage/'.$img->image_path) }}" class="w-100 photo border rounded"><div class="small muted">{{ $img->type }}</div></div>@empty<div class="muted">{{ $en?'No photos attached yet.':'ยังไม่มีรูปแนบในใบงาน' }}</div>@endforelse</div></div>
+<div class="row g-3"><div class="col-4"><div class="box text-center sigbox"><b>{{ $en?'Customer':'ลูกค้า' }}</b><div class="signline">{{ $en?'Signature':'ลงชื่อ' }}</div></div></div><div class="col-4"><div class="box text-center sigbox"><b>{{ $en?'Foreman':'หัวหน้าช่าง' }}</b><div class="signline">{{ $en?'Signature':'ลงชื่อ' }}</div></div></div><div class="col-4"><div class="box text-center sigbox"><b>{{ $en?'Inspector':'ผู้ตรวจรับ' }}</b><div class="signline">{{ $en?'Signature':'ลงชื่อ' }}</div></div></div></div>
+<div class="watermark">SJ Rope Access Painting Co., Ltd. • 081-353-7779 • 092-284-5996</div>
+</body></html>

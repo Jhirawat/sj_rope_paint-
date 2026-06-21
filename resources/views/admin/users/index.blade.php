@@ -1,0 +1,2 @@
+@extends('layouts.admin')
+@section('content')<div class="d-flex justify-content-between mb-3"><h1>ผู้ดูแลระบบ</h1><a class="btn btn-sj" href="{{ route('admin.users.create') }}">เพิ่มผู้ใช้</a></div><div class="card p-3"><table class="table">@foreach($users as $u)<tr><td>{{ $u->name }}</td><td>{{ $u->email }}</td><td>{{ $u->role }}</td><td><a href="{{ route('admin.users.edit',$u) }}">แก้ไข</a></td></tr>@endforeach</table>{{ $users->links() }}</div>@endsection
